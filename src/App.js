@@ -1,25 +1,144 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect, useRef } from 'react';
+import styled from 'styled-components';
+import { inputRegEx } from 'Utils/regex';
+import { bubbleSort } from 'Utils/sort';
+import Timer from 'Components/Timer';
+import InputNums from 'Components/InputNums';
+import Result from 'Components/Result';
 
-function App() {
+const App = () => {
+  const [inputTxt, setInputTxt] = useState('');
+  const [inputError, setInputError] = useState(false);
+  const [ascend, setAscend] = useState('');
+  const [descend, setDescend] = useState('');
+  const btnRef = useRef();
+  const inputRef = useRef();
+
+  useEffect(() => {
+    !inputRegEx.test(inputTxt) ? setInputError(true) : setInputError(false);
+  }, [inputTxt]);
+
+  const onInputChange = (e) => {
+    setInputTxt(e.target.value);
+  };
+
+  const onInputKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      onSort();
+    }
+  };
+
+  const onSort = () => {
+    const target = inputTxt.split(',').map((str) => parseInt(str));
+
+    setDescend('');
+
+    new Promise((resolve, _reject) => {
+      setAscend(bubbleSort(target, 'asc').join(', '));
+      btnRef.current.disabled = true;
+      inputRef.current.disabled = true;
+      setTimeout(() => {
+        resolve();
+      }, 3000);
+    }).then(() => {
+      setDescend(bubbleSort(target, 'desc').join(', '));
+      btnRef.current.disabled = false;
+      inputRef.current.disabled = false;
+    });
+  };
+
+  const onClear = () => {
+    setInputTxt('');
+    setAscend('');
+    setDescend('');
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Wrapper>
+      <MainContainer>
+        <Timer type="KR" />
+
+        <InputNums
+          value={inputTxt}
+          ref={inputRef}
+          onChange={onInputChange}
+          onKeyPress={onInputKeyPress}
+        />
+
+        {inputTxt && inputError && (
+          <ErrorTxt>잘못된 입력값입니다. 다시 확인해주세요.</ErrorTxt>
+        )}
+
+        <BtnWrapper>
+          <StartButton
+            type="button"
+            ref={btnRef}
+            disabled={inputError}
+            onClick={onSort}>
+            시작 버튼
+          </StartButton>
+          <InitButton type="button" onClick={onClear}>
+            초기화 버튼
+          </InitButton>
+        </BtnWrapper>
+        {/* 오름차순 바로 노출*/}
+        <Result value={ascend} />
+        {/* 내림차순 오름차순 3초 뒤 노출*/}
+        <Result value={descend} />
+        <Timer type="US" />
+      </MainContainer>
+    </Wrapper>
   );
-}
+};
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: ${({ theme }) => theme.color.gray};
+`;
+
+const MainContainer = styled.main`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 500px;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.04);
+`;
+
+const ErrorTxt = styled.p`
+  margin: 10px auto;
+  color: ${({ theme }) => theme.color.red};
+`;
+
+const BtnWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 0 32px;
+`;
+const StartButton = styled.button`
+  margin: 20px 10px;
+  padding: 10px 10px;
+  border: 1px solid #f0f8ff;
+  border-radius: 8px;
+  font-size: 16px;
+  color: white;
+  background-color: ${({ theme }) => theme.color.blue};
+
+  &:hover {
+    background-color: ${({ theme }) => theme.color.darkBlue};
+  }
+
+  &:disabled {
+    border: 1px solid rgba(0, 0, 255, 0.1);
+    background-color: ${({ theme }) => theme.color.red};
+    cursor: default;
+  }
+`;
+
+const InitButton = styled(StartButton)``;
 
 export default App;
