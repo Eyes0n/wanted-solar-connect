@@ -6,7 +6,7 @@
   "trailingComma": "es5",
   "jsxBracketSameLine": true,
   "jsxSingleQuote": false,
-  "printWidth": 100,
+  "printWidth": 80,
   "endOfLine": "auto",
   "quoteProps": "consistent"
 }
