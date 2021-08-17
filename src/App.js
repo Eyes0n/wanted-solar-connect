@@ -87,8 +87,8 @@ const App = () => {
           </InitButton>
         </BtnWrapper>
 
-        <Result value={ascend} />
-        <Result value={descend} />
+        <Result type="asc" value={ascend} />
+        <Result type="desc" value={descend} />
         <Timer type="US" />
       </MainContainer>
     </Wrapper>
