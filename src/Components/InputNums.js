@@ -9,7 +9,7 @@ const InputNums = forwardRef(({ value, onChange, onKeyPress }, ref) => {
         id="input"
         ref={ref}
         disabled={false}
-        placeholder="숫자를 입력해주세요."
+        placeholder="'1,2,3,4' 형식으로 입력해주세요."
         value={value}
         onChange={onChange}
         onKeyPress={onKeyPress}
