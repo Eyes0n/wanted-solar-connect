@@ -5,17 +5,20 @@ import { bubbleSort } from 'Utils/sort';
 import Timer from 'Components/Timer';
 import InputNums from 'Components/InputNums';
 import Result from 'Components/Result';
+import Error from 'Components/Error';
 
 const App = () => {
   const [inputTxt, setInputTxt] = useState('');
-  const [inputError, setInputError] = useState(false);
+  const [inputValidator, setInputValidator] = useState(false);
   const [ascend, setAscend] = useState('');
   const [descend, setDescend] = useState('');
   const btnRef = useRef();
   const inputRef = useRef();
 
   useEffect(() => {
-    !inputRegEx.test(inputTxt) ? setInputError(true) : setInputError(false);
+    !inputRegEx.test(inputTxt)
+      ? setInputValidator(true)
+      : setInputValidator(false);
   }, [inputTxt]);
 
   const onInputChange = (e) => {
@@ -31,7 +34,8 @@ const App = () => {
   const onSort = () => {
     const target = inputTxt.split(',').map((str) => parseInt(str));
 
-    setDescend('');
+    setAscend('Loading...');
+    setDescend('Loading...');
 
     new Promise((resolve, _reject) => {
       setAscend(bubbleSort(target, 'asc').join(', '));
@@ -65,15 +69,13 @@ const App = () => {
           onKeyPress={onInputKeyPress}
         />
 
-        {inputTxt && inputError && (
-          <ErrorTxt>잘못된 입력값입니다. 다시 확인해주세요.</ErrorTxt>
-        )}
+        <Error isError={inputTxt && inputValidator} />
 
         <BtnWrapper>
           <StartButton
             type="button"
             ref={btnRef}
-            disabled={inputError}
+            disabled={inputValidator}
             onClick={onSort}>
             시작 버튼
           </StartButton>
@@ -81,9 +83,8 @@ const App = () => {
             초기화 버튼
           </InitButton>
         </BtnWrapper>
-        {/* 오름차순 바로 노출*/}
+
         <Result value={ascend} />
-        {/* 내림차순 오름차순 3초 뒤 노출*/}
         <Result value={descend} />
         <Timer type="US" />
       </MainContainer>
@@ -107,11 +108,6 @@ const MainContainer = styled.main`
   border-radius: 16px;
   background: white;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.04);
-`;
-
-const ErrorTxt = styled.p`
-  margin: 10px auto;
-  color: ${({ theme }) => theme.color.red};
 `;
 
 const BtnWrapper = styled.div`
