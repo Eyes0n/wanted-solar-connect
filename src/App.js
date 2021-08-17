@@ -32,7 +32,10 @@ const App = () => {
   };
 
   const onSort = () => {
-    const target = inputTxt.split(',').map((str) => parseInt(str));
+    const target = inputTxt
+      .trim()
+      .split(',')
+      .map((str) => parseInt(str));
 
     setAscend('Loading...');
     setDescend('Loading...');
