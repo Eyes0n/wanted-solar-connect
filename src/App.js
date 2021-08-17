@@ -8,7 +8,7 @@ import Error from 'Components/Error';
 
 const App = () => {
   const [inputTxt, setInputTxt] = useState('');
-  const [inputError, setInputError] = useState(false);
+  const [inputError, setInputError] = useState(true);
   const [ascend, setAscend] = useState('');
   const [descend, setDescend] = useState('');
   const btnRef = useRef();
@@ -65,7 +65,7 @@ const App = () => {
           onKeyPress={onInputKeyPress}
         />
 
-        <Error isError={inputError} />
+        <Error isError={inputError && inputTxt} />
 
         <BtnWrapper>
           <StartButton
