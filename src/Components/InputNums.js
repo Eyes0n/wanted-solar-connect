@@ -13,6 +13,8 @@ const InputNums = forwardRef(({ value, onChange, onKeyPress }, ref) => {
         value={value}
         onChange={onChange}
         onKeyPress={onKeyPress}
+        autoComplete="off"
+        autoFocus
       />
     </Wrapper>
   );
