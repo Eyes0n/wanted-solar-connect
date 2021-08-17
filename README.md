@@ -2,6 +2,9 @@
 
 ## [🔗 배포 링크](https://sorting-machine.netlify.app)
 
+## 팀원
+- 🧏‍♂️박현찬
+- 🧏‍♀️이다은
 ## 구현 기능
 
 - Timer 기능
