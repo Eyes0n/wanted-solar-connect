@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { inputRegEx } from 'Utils/regex';
 import { bubbleSort } from 'Utils/sort';
@@ -9,20 +9,17 @@ import Error from 'Components/Error';
 
 const App = () => {
   const [inputTxt, setInputTxt] = useState('');
-  const [inputValidator, setInputValidator] = useState(false);
+  const [inputError, setInputError] = useState(false);
   const [ascend, setAscend] = useState('');
   const [descend, setDescend] = useState('');
   const btnRef = useRef();
   const inputRef = useRef();
 
-  useEffect(() => {
-    !inputRegEx.test(inputTxt)
-      ? setInputValidator(true)
-      : setInputValidator(false);
-  }, [inputTxt]);
+  const inputValidator = (str) => setInputError(!inputRegEx.test(str));
 
   const onInputChange = (e) => {
     setInputTxt(e.target.value);
+    inputValidator(e.target.value);
   };
 
   const onInputKeyPress = (e) => {
@@ -72,13 +69,13 @@ const App = () => {
           onKeyPress={onInputKeyPress}
         />
 
-        <Error isError={inputTxt && inputValidator} />
+        <Error isError={inputError} />
 
         <BtnWrapper>
           <StartButton
             type="button"
             ref={btnRef}
-            disabled={inputValidator}
+            disabled={inputError}
             onClick={onSort}>
             시작 버튼
           </StartButton>
@@ -89,6 +86,7 @@ const App = () => {
 
         <Result type="asc" value={ascend} />
         <Result type="desc" value={descend} />
+
         <Timer type="US" />
       </MainContainer>
     </Wrapper>
