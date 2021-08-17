@@ -1,12 +1,6 @@
-let options = {
-  weekday: 'long',
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-  timeZone: 'Asia/seoul',
-};
+import { DATE_LOCAL_OPTIONS_KR } from './constants';
 
 export const dateLocalFunc = (date, type) =>
   type === 'KR'
-    ? date.toLocaleString('ko-KR', options)
-    : date.toLocaleString('en-US', options);
+    ? date.toLocaleString('ko-KR', DATE_LOCAL_OPTIONS_KR)
+    : date.toLocaleString('en-US', DATE_LOCAL_OPTIONS_KR);
