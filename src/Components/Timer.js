@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { dateLocalFunc } from 'Utils/date';
+import { dateLocalFunc } from 'Utils';
 
 const Timer = ({ type }) => {
   const [date, setDate] = useState(new Date());

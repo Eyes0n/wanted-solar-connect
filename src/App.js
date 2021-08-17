@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
-import { inputRegEx } from 'Utils/regex';
-import { bubbleSort } from 'Utils/sort';
+import { inputRegEx, stringToArray, bubbleSort, SORT } from 'Utils';
 import Timer from 'Components/Timer';
 import InputNums from 'Components/InputNums';
 import Result from 'Components/Result';
@@ -29,10 +28,7 @@ const App = () => {
   };
 
   const onSort = () => {
-    const target = inputTxt
-      .trim()
-      .split(',')
-      .map((str) => parseInt(str));
+    const target = stringToArray(inputTxt);
 
     setAscend('Loading...');
     setDescend('Loading...');
@@ -84,8 +80,8 @@ const App = () => {
           </InitButton>
         </BtnWrapper>
 
-        <Result type="asc" value={ascend} />
-        <Result type="desc" value={descend} />
+        <Result type={SORT.ASC} value={ascend} />
+        <Result type={SORT.DESC} value={descend} />
 
         <Timer type="US" />
       </MainContainer>

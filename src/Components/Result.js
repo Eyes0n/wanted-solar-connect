@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import { SORT } from 'Utils';
 
 const Result = ({ value, type }) => {
   return (
     <Wrapper>
-      <span>{type === 'asc' ? '오름차순 정렬' : '내림차순 정렬'}</span>
+      <span>{type === SORT.ASC ? '오름차순 정렬' : '내림차순 정렬'}</span>
       <p>{value || '숫자를 입력해주세요.'}</p>
     </Wrapper>
   );
